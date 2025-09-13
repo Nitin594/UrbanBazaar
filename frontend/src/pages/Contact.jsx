@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout";
 const Contact = () => {
   return (
     <div>
-      <Layout>
+      <Layout title={'Contact Us: UrbanBazaar'}>
         <h1>ContactPage</h1>
       </Layout>
     </div>
