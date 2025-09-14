@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { toast } from "react-toastify";
-import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./Register.css"; // new css file
 
 const Register = () => {
-  // State variables
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-    const navigate = useNavigate()
-  // Handle form submit
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,95 +21,102 @@ const Register = () => {
       return;
     }
     try {
-        const res = await axios.post(`/api/v1/auth/register`,{name,email,password,phone,address});
-        if(res.data.success){
-            toast.success(res.data.message);
-            navigate("/login");
-        }else{
-            toast.error(res.data.message)
-        }
+      const res = await axios.post(`/api/v1/auth/register`, {
+        name,
+        email,
+        password,
+        phone,
+        address,
+      });
+      if (res.data.success) {
+        toast.success(res.data.message);
+        navigate("/login");
+      } else {
+        toast.error(res.data.message);
+      }
     } catch (error) {
-        console.log(error)
-        toast.error('something went wrong')
+      console.log(error);
+      toast.error("something went wrong");
     }
-
-    // For now, just log data
-    console.log({ name, email, password, phone, address });
-
-    // Example: You can send it to your API here
-    // await axios.post("/api/register", { name, email, password, phone, address });
-
-    toast.success("Registration successful!");
   };
 
   return (
-    <Layout title={'Register: UrbanBazaar'}>
-      <div style={{ maxWidth: "400px", margin: "0 auto" }}>
-        <h1>Register</h1>
+    <Layout title={"Register: UrbanBazaar"}>
+      <div className="register-page">
+        {/* Left side form */}
+        <div className="register-form-container">
+          <h2>Create your account</h2>
 
-        <form onSubmit={handleSubmit}>
-          {/* Name */}
-          <div style={{ marginBottom: "10px" }}>
-            <label>Name:</label>
+          <form onSubmit={handleSubmit} className="register-form">
+            {/* Name */}
             <input
               type="text"
+              placeholder="Enter your Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              style={{ width: "100%" }}
             />
-          </div>
 
-          {/* Email */}
-          <div style={{ marginBottom: "10px" }}>
-            <label>Email:</label>
+            {/* Email */}
             <input
               type="email"
+              placeholder="Enter your Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              style={{ width: "100%" }}
             />
-          </div>
 
-          {/* Password */}
-          <div style={{ marginBottom: "10px" }}>
-            <label>Password:</label>
+            {/* Password */}
             <input
               type="password"
+              placeholder="Enter your Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              style={{ width: "100%" }}
             />
-          </div>
 
-          {/* Phone */}
-          <div style={{ marginBottom: "10px" }}>
-            <label>Phone:</label>
+            {/* Phone */}
             <input
               type="tel"
+              placeholder="Enter your Phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              style={{ width: "100%" }}
             />
-          </div>
 
-          {/* Address */}
-          <div style={{ marginBottom: "10px" }}>
-            <label>Address:</label>
+            {/* Address */}
             <textarea
+              placeholder="Enter your Address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
-              style={{ width: "100%" }}
             />
-          </div>
 
-          {/* Submit Button */}
-          <button type="submit">Register</button>
-        </form>
+            <div className="terms">
+              <input type="checkbox" required /> I agree to all Terms & Conditions
+            </div>
+
+            <button type="submit" className="submit-btn">
+              Sign Up
+            </button>
+
+            <p className="alt-link">
+              Already have an account? <a href="/login">Log In</a>
+            </p>
+          </form>
+        </div>
+
+        {/* Right side image/promo */}
+        <div className="register-image">
+          <div className="overlay-text">
+            <h1>UrbanBazaar</h1>
+            <p>Shop Smart, Live Better.</p>
+            <div className="badges">
+              <span>✓ Fast Delivery</span>
+              <span>✓ Secure Payment</span>
+            </div>
+          </div>
+        </div>
       </div>
     </Layout>
   );
